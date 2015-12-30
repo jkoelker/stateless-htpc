@@ -1,0 +1,2 @@
+d /etc/X11
+f /etc/X11/Xwrapper.config - - - - needs_root_rights = yes

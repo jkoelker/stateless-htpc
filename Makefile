@@ -53,5 +53,8 @@ install:
 	install -Dm644 \
 		nfs.tmpfiles \
 		$(DESTDIR)/$(TMPFILESDIR)/nfs.conf
+	install -Dm644 \
+		htpc.tmpfiles \
+		$(DESTDIR)/$(TMPFILESDIR)/htpc.conf
 
 .PHONY: all install
