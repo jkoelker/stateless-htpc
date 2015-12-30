@@ -9,6 +9,7 @@ Group = htpc
 PAMName=login
 Type = simple
 TTYPath=/dev/tty7
+Environment=STEAM_RUNTIME=0
 ExecStart = /usr/bin/xinit /usr/bin/dbus-launch --exit-with-session /usr/bin/steam -bigpicture -- :0 -nolisten tcp vt7
 Restart = on-abort
 StandardInput = tty
