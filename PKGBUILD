@@ -9,7 +9,7 @@ url="https://github.com/jkoelker/stateless-htpc"
 license=('GPL')
 depends=('systemd' 'nfs-utils' 'xorg-server' 'xorg-xinit' 'steam')
 source=("https://github.com/jkoelker/$pkgname/archive/v$pkgver.tar.gz")
-sha256sums=('a226aa248e0429899d8ceaeb121f261772a15fdfff3c348b64e0290602a2bae0')
+sha256sums=('307cda79906169f953a356c2fe753d82a11d3f8f843663d42fb9b91254b412c6')
 
 package() {
     cd "${srcdir}/${pkgname}-${pkgver}"
