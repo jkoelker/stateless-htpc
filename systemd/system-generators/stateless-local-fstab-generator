@@ -39,9 +39,11 @@ EOF
     fi
 
     remote_fs=$(echo ${REMOTE_FS[@]//${fstype}/})
-    [ "${REMOTE_FS[*]}" == "${remote_fs[*]}" ] && \
-        post='remote-fs.target' || \
+    if [ "${REMOTE_FS[*]}" == "${remote_fs[*]}" ]; then
         post='local-fs.target'
+    else
+        post='remote-fs.target'
+    fi
 
     mkdir -p "${UNIT_DIR}/${post}.requires/"
     ln -s -r "${UNIT_DIR}/${filename}" "${UNIT_DIR}/${post}.requires/${filename}"

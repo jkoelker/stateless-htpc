@@ -1,2 +1,2 @@
-enaable ssh.service
+enable sshd.service
 enable steam-bigpicture.service

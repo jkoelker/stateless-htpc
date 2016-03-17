@@ -1,0 +1,33 @@
+#!/bin/bash
+
+ROOT_PASSWORD_FILE="/usr/local/etc/root.passwd"
+LOCALE_FILE="/usr/local/etc/locale.conf"
+LOCALTIME_FILE="/usr/local/etc/localtime"
+
+root_value="--prompt-root-password"
+locale_value="--prompt-locale"
+timezone_value="--prompt-timezone"
+
+
+[ -f $ROOT_PASSWORD_FILE ] && root_password_file=$ROOT_PASSWORD_FILE
+[ -f $LOCALE_FILE ] &&  . $LOCALE_FILE
+if [ -f $LOCALTIME_FILE ]; then
+    timezone=$(readlink $LOCALTIME_FILE)
+    timezone=${timezone#*/usr/share/zoneinfo/}  
+fi
+
+[ -n "$root_password_file" ] && root_value="--root-password-file=$root_password_file"
+[ -n "$timezone" ] && timezone_value="--timezone=$timezone"
+[ -z "$LC_MESSAGES" ] && LC_MESSAGES="$LANG"
+[ -n "$LANG" ] && locale_value="--locale=$LANG --locale-messages=$LC_MESSAGES"
+
+
+GENERATOR_DIR="$1"
+
+[ -d "$GENERATOR_DIR"/systemd-firstboot.service.d ] || mkdir -p "$GENERATOR_DIR"/systemd-firstboot.service.d
+{
+    echo "[Service]"
+    echo "ExecStart="
+    echo "ExecStart=/usr/bin/systemd-firstboot $locale_value $timezone_value $root_value"
+} > "$GENERATOR_DIR"/systemd-firstboot.service.d/stateless.conf
+

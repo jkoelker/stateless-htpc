@@ -1,0 +1,2 @@
+enable rpcbind.socket
+enable nfs-client.target
