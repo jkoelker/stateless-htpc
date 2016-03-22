@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Steam Big Picture Mode
+Comment=Start Steam in Big Picture Mode
+Exec=/usr/bin/env STEAM_RUNTIME=0 /usr/bin/steam -bigpicture
+TryExec=/usr/bin/steam
+Icon=
+Type=Application

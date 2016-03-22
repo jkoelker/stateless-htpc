@@ -9,6 +9,7 @@ systempresetdir ?= ${systemddir}/system-preset
 systemgeneratordir ?= ${systemddir}/system-generators
 sysusersdir ?= ${libdir}/sysusers.d
 tmpfilesdir ?= ${libdir}/tmpfiles.d
+xsessionsdir ?= ${datadir}/xsessions
 
 generators = systemd/system-generators/stateless-local-fstab-generator \
 	     systemd/system-generators/stateless-firstboot-generator
@@ -17,7 +18,7 @@ presets = systemd/system-preset/50-htpc.preset \
 configs = local/etc/fstab \
 	  local/etc/locale.conf
 rootpasswd = local/etc/root.passwd
-services = systemd/system/steam-bigpicture.service
+xsession = xsession/steam-bigpicture.desktop
 vendorfiles = etc/netconfig \
 	      etc/protocols \
 	      etc/services \
@@ -28,6 +29,7 @@ vendorfiles = etc/netconfig \
 	      etc/dbus-1/system.conf \
 	      etc/dbus-1/system.d/avahi-dbus.conf \
 	      etc/dbus-1/system.d/org.freedesktop.ColorManager.conf \
+	      etc/dbus-1/system.d/org.freedesktop.DisplayManager.conf \
 	      etc/dbus-1/system.d/org.freedesktop.GeoClue2.Agent.conf \
 	      etc/dbus-1/system.d/org.freedesktop.GeoClue2.conf \
 	      etc/dbus-1/system.d/org.freedesktop.PolicyKit1.conf \
@@ -40,17 +42,24 @@ vendorfiles = etc/netconfig \
 	      etc/dbus-1/system.d/org.freedesktop.resolve1.conf \
 	      etc/dbus-1/system.d/org.freedesktop.systemd1.conf \
 	      etc/dbus-1/system.d/org.freedesktop.timedate1.conf \
-	      etc/polkit-1/rules.d/50-default.rules
+	      etc/lightdm/keys.conf \
+	      etc/lightdm/lightdm.conf \
+	      etc/lightdm/users.conf \
+	      etc/lightdm/Xsession \
+	      etc/pam.d/htpc-autologin \
+	      etc/polkit-1/rules.d/50-default.rules \
 	      etc/ssh/sshd_config
 sysusers = sysusers.d/dbus.conf \
 	   sysusers.d/htpc.conf \
+	   sysusers.d/lightdm.conf \
 	   sysusers.d/nfs.conf \
 	   sysusers.d/polkit.conf
 tmpfiles = tmpfiles.d/dbus.conf \
 	   tmpfiles.d/htpc.conf \
 	   tmpfiles.d/nfs.conf \
 	   tmpfiles.d/polkit.conf \
-	   tmpfiles.d/ssh.conf
+	   tmpfiles.d/ssh.conf \
+	   tmpfiles.d/stateless-lightdm.conf
 all:
 
 install:
@@ -68,10 +77,6 @@ install:
 	    install -m 0644 $$i $(DESTDIR)$(prefix)/$$i; \
 	done
 	install -m 0600 $(rootpasswd) $(DESTDIR)$(prefix)/$(rootpasswd)
-	mkdir -p $(DESTDIR)$(systemunitdir)
-	for i in $(services); do \
-	    install -m 0644 $$i $(DESTDIR)$(libdir)/$$i; \
-	done
 	mkdir -p $(DESTDIR)$(factorydir)/etc/conf.d
 	for i in $(vendorfiles); do \
 	    install -m 0644 $$i $(DESTDIR)$(factorydir)/$$i; \
@@ -84,5 +89,9 @@ install:
 	for i in $(tmpfiles); do \
 	    install -m 0644 $$i $(DESTDIR)$(libdir)/$$i; \
 	done
+	mkdir -p $(DESTDIR)$(xsessionsdir)
+	install -m 0644 $$i $(DESTDIR)$(xsessionsdir)/$(xsession)
+	ln -s $(DESTDIR)$(xsessionsdir)/$(xsession) \
+	      $(DESTDIR)$(xsessionsdir)/$(xsession)default.desktop
 
 .PHONY: all install

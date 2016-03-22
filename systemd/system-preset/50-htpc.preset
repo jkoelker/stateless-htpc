@@ -1,2 +1,2 @@
 enable sshd.service
-enable steam-bigpicture.service
+enable lightdm.service
