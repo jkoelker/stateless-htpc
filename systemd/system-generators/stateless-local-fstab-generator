@@ -4,6 +4,16 @@ UNIT_DIR="$2"
 REMOTE_FS=(afs cifs smbfs sshfs ncpfs ncp nfs nfs4 gfs gfs2 glusterfs)
 export HOSTNAME=$(cat /proc/sys/kernel/hostname)
 
+set -- $(cat /proc/cmdline)
+for x in "$@"; do
+    case "$x" in
+        mount.usr=*)
+            arg="${x#mount.usr=}"
+            export NFSSERVER="${arg%%:/*}"
+            ;;
+    esac
+done
+
 while read l; do
     [[ "$l" =~ ^\# ]] && continue
 

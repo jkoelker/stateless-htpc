@@ -1,2 +1,2 @@
 # WHAT WHERE TYPE OPTIONS
-# 172.16.98.3:/speed/htpc/state/${HOSTNAME}  /var/lib/htpc nfs defaults
+# ${NFSSERVER}:/speed/htpc/state/${HOSTNAME}  /var/lib/htpc nfs defaults
