@@ -18,7 +18,7 @@ presets = systemd/system-preset/50-htpc.preset \
 configs = local/etc/fstab \
 	  local/etc/locale.conf
 rootpasswd = local/etc/root.passwd
-xsession = xsession/steam-bigpicture.desktop
+xsession = xsessions/steam-big-picture.desktop
 vendorfiles = etc/netconfig \
 	      etc/protocols \
 	      etc/services \
@@ -90,8 +90,8 @@ install:
 	    install -m 0644 $$i $(DESTDIR)$(libdir)/$$i; \
 	done
 	mkdir -p $(DESTDIR)$(xsessionsdir)
-	install -m 0644 $$i $(DESTDIR)$(xsessionsdir)/$(xsession)
-	ln -s $(DESTDIR)$(xsessionsdir)/$(xsession) \
-	      $(DESTDIR)$(xsessionsdir)/$(xsession)default.desktop
+	install -m 0644 $(xsession) $(DESTDIR)$(xsessionsdir)
+	ln -s $(DESTDIR)$(datadir)/$(xsession) \
+		$(DESTDIR)$(xsessionsdir)/default.desktop
 
 .PHONY: all install
