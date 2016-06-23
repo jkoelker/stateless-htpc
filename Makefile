@@ -45,10 +45,10 @@ vendorfiles = etc/netconfig \
 	      etc/lightdm/keys.conf \
 	      etc/lightdm/lightdm.conf \
 	      etc/lightdm/users.conf \
-	      etc/lightdm/Xsession \
 	      etc/pam.d/htpc-autologin \
 	      etc/polkit-1/rules.d/50-default.rules \
 	      etc/ssh/sshd_config
+vendorxsession = etc/lightdm/Xsession
 sysusers = sysusers.d/dbus.conf \
 	   sysusers.d/htpc.conf \
 	   sysusers.d/lightdm.conf \
@@ -81,6 +81,8 @@ install:
 	for i in $(vendorfiles); do \
 	    install -m 0644 $$i $(DESTDIR)$(factorydir)/$$i; \
 	done
+	install -m 0755 $(vendorxsession) \
+	    $(DESTDIR)$(factorydir)/$(vendorxsession)
 	mkdir -p $(DESTDIR)$(sysusersdir)
 	for i in $(sysusers); do \
 	    install -m 0644 $$i $(DESTDIR)$(libdir)/$$i; \
